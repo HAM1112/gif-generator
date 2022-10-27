@@ -7,25 +7,25 @@ let item = "nasa"
 searchButton.addEventListener('click',()=>{
     item = searchBar.value
     main.innerHTML = ""
-    newGif(item) 
+    getGif(item) 
 
 })
 addButton.addEventListener('click', ()=>{
     item = searchBar.value
-    newGif(item)
+    getGif(item)
 })
 
-function newGif(searchitem){  
+
+
+async function getGif(searchitem){
     const img = document.createElement('img')
     main.appendChild(img)
-      
-    fetch(`https://api.giphy.com/v1/gifs/translate?api_key=5wvBjUIsu4J2tmPomIuiTR3j9bFkxcmM&s=${searchitem}`, {mode: 'cors'})
-    .then(function(response){
-        return response.json()  
-    })
-    .then(function(response){
-        img.src = response.data.images.original.url
-    })
+
+    const response = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=5wvBjUIsu4J2tmPomIuiTR3j9bFkxcmM&s=${searchitem}`, {mode: 'cors'})
+    const gifData = await response.json();
+
+    console.log(gifData.data.images.original.url);
+    img.src = gifData.data.images.original.url
 }
 
-newGif(item)
+getGif(item)
